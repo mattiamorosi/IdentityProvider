@@ -4,12 +4,13 @@ const { createIdentity } = require('./createIdentity');
 const { createVC } = require('./createVC');
 const { createUserVc } = require('./createUserVc');
 const { createAP } = require('./createAP');
+const {getDDO} = require("./getDDO");
 const app = express();
 const port = 5000;
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost", "http://localhost:3000", "http://localhost:3001"],
+    origin: ["http://localhost", "http://localhost:3000", "http://localhost:5001"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: [
@@ -31,6 +32,16 @@ app.post("/createIdentity", async function(req,res) {
     if (did==="alias_used") res.send("alias_used");
     else res.json(did);
 })
+
+app.post("/getDDO", async function(req,res) {
+  const { alias } = req.body.data;
+  console.log("Post request received, alias: "+alias)
+  const ddo = await getDDO(alias);
+  console.log("DDO: "+JSON.stringify(ddo));
+  if (ddo==="Not_found") res.send("Not_found");
+  else res.json(ddo);
+})
+
 
 app.post("/createAP", async function(req,res) {
   console.log("Qui arriva");

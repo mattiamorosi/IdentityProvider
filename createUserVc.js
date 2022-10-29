@@ -9,13 +9,6 @@ const createUserVc = async (name, surname, university, userAlias) => {
         managerAlias: "test",
     });
 
-    /**
-     * POST request received on /createAP, alias: http://example-ap.com
-     * DID: "did:iota:8CxxoHCL8VNmKHCcmWnb9pc3XfeaNFy6qedZjPYGpLMX"
-     * 
-     * createAP attaches also the signing method
-     */
-
     // Issuer loading
     const issuer = await manager.getIdentityByAlias("http://example-ap.com");
     const identity = await manager.getIdentityByAlias(userAlias);

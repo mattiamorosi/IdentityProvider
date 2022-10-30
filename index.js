@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const { createIdentity } = require('./createIdentity');
-const { createVC } = require('./createVC');
 const { createUserVc } = require('./createUserVc');
 const { createAP } = require('./createAP');
 const {getDDO} = require("./getDDO");
@@ -60,15 +59,6 @@ app.post("/createAP", async function(req,res) {
   else res.json(did);
 })
 
-app.post("/universityCred", async function(req,res) {
-    console.log("POST received");
-    const { name, surname, university, userAlias, alias } = req.body.data;
-    console.log("Params: "+name+", "+surname+", "+university+", "+userAlias+", "+alias)
-    const vc = await createVC(name, surname, university, alias);
-    console.log("VC: "+JSON.stringify(vc));
-    res.json(vc);
-})
-
 app.post("/createUserVC", async function(req,res) {
   console.log("POST /createUserVC received");
   const { name, surname, university, userAlias } = req.body.data;
@@ -76,11 +66,6 @@ app.post("/createUserVC", async function(req,res) {
   const vc = await createUserVc(name, surname, university, userAlias);
   console.log("VC: "+JSON.stringify(vc));
   res.json(vc);
-})
-
-app.get("/", function(req, res) {
-    console.log("GET received");
-    res.send("Hello world!");
 })
 
 const port = 8443;

@@ -5,12 +5,19 @@ const { createVC } = require('./createVC');
 const { createUserVc } = require('./createUserVc');
 const { createAP } = require('./createAP');
 const {getDDO} = require("./getDDO");
+const https = require('https')
+const fs = require('fs')
+
+var privateKey  = fs.readFileSync('./HTTPS/idp.key', 'utf8');
+var certificate = fs.readFileSync('./HTTPS/idp.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
 const app = express();
-const port = 5000;
 app.use(express.json());
+
 app.use(
   cors({
-    origin: ["http://localhost", "http://localhost:3000", "http://localhost:5001"],
+    origin: ["https://localhost", "https://localhost:3000", "https://localhost:5001"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: [
@@ -72,9 +79,13 @@ app.post("/createUserVC", async function(req,res) {
 })
 
 app.get("/", function(req, res) {
-    console.log("GET received")
+    console.log("GET received");
+    res.send("Hello world!");
 })
 
-app.listen(port, () => {
-  console.log(`Identity Provider started on port : ${port}`);
-});
+const port = 8443;
+var httpsServer = https.createServer(credentials, app);
+httpsServer.listen(port,()=>{
+  console.log(`Identity Provider is listening at port ${port}`)
+})
+

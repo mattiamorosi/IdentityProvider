@@ -1,6 +1,5 @@
 const { IdentityManager, Types } = require("@tanglelabs/identity-manager");
 const path = require("path");
-const asyncHandler = require("express-async-handler");
 
 const createAP = async (alias) => {
     const manager = await IdentityManager.newInstance({

@@ -1,4 +1,4 @@
-const { IdentityManager, Types } = require("@tanglelabs/identity-manager");
+const { IdentityManager } = require("@tanglelabs/identity-manager");
 const path = require("path");
 
 const getDDO = async (alias) => {
